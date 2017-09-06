@@ -7,8 +7,6 @@
 ![Node](https://img.shields.io/badge/node-%3E=6.0-blue.svg?style=flat-square)
 [![npm version](https://badge.fury.io/js/typecmd.svg)](https://badge.fury.io/js/typecmd)
 
-Http module for Greasyfork Script
-
 ## Installation
 ```bash
 npm install typecmd --save
