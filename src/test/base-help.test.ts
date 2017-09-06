@@ -41,15 +41,16 @@ class InfoCommand extends Command {
   }
 }
 
-ava.test('info命令', t => {
+ava.test('print help info', t => {
+  let havePrintHelpInfo: boolean = false;
   const p = program()
     .command(InfoCommand)
-    .parse(['test', 'info', './package.json', '--force', '--dist', './build']);
+    .on('help', () => {
+      havePrintHelpInfo = true;
+    })
+    .parse(['test']);
 
-  t.deepEqual(p.__command instanceof InfoCommand, true);
-  t.deepEqual(p.__command.name, 'info');
-  t.deepEqual(p.__command_argv, { file: './package.json' });
-  t.deepEqual(p.__command_options, { force: true, dist: './build' });
+  t.truthy(havePrintHelpInfo);
 
   t.pass();
 });

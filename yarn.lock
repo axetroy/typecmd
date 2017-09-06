@@ -44,6 +44,10 @@
   dependencies:
     arrify "^1.0.1"
 
+"@types/minimist@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/@types/minimist/-/minimist-1.2.0.tgz#69a23a3ad29caf0097f06eda59b361ee2f0639f6"
+
 "@types/node@^8.0.26":
   version "8.0.26"
   resolved "https://registry.npmjs.org/@types/node/-/node-8.0.26.tgz#4d58be925306fd22b1141085535a0268b8beb189"

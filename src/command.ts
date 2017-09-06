@@ -6,7 +6,7 @@ export interface CommandClass$ {
 }
 
 export interface PlainObject$ {
-  [key: string]: string;
+  [key: string]: string | boolean | string[];
 }
 
 export interface Command$ {
@@ -22,7 +22,7 @@ export class Command implements Command$ {
   name: string;
   desc: string;
   argument: ArgumentClass$;
-  options?: OptionClass$[];
+  options?: OptionClass$[] = [];
   constructor() {}
   async action(argv: PlainObject$, options: PlainObject$): Promise<void> {}
   parse(argv: string[]) {}

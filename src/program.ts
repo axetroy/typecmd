@@ -1,7 +1,8 @@
 import { EventEmitter } from 'events';
 import * as hasFlag from 'has-flag';
+import * as minimist from 'minimist';
 
-import { Command, Command$, CommandClass$, PlainObject$ } from './command';
+import { Command$, CommandClass$, PlainObject$ } from './command';
 import { ArgumentClass$ } from './argument';
 import { Option$, OptionClass$ } from './option';
 
@@ -9,6 +10,8 @@ export interface Program$ {
   name(name: string): this;
   version(ver: string): this;
   description(desc: string): this;
+  command(command: CommandClass$): this;
+  parse(argv: string[]): this;
 }
 
 class Program extends EventEmitter implements Program$ {
@@ -17,21 +20,25 @@ class Program extends EventEmitter implements Program$ {
   private __description: string;
   private __commands: CommandClass$[] = [];
   private __argv: string[] = [];
+
+  public __command: Command$;
+  public __command_argv: PlainObject$;
+  public __command_options: PlainObject$;
   constructor() {
     super();
     this.on('help', () => {
       console.info('print help info');
     });
   }
-  name(name: string) {
+  name(name: string): this {
     this.__name = name;
     return this;
   }
-  version(ver: string) {
+  version(ver: string): this {
     this.__version = ver;
     return this;
   }
-  description(desc: string) {
+  description(desc: string): this {
     this.__description = desc;
     return this;
   }
@@ -39,13 +46,13 @@ class Program extends EventEmitter implements Program$ {
     this.__commands.push(command);
     return this;
   }
-  parse(argv: string[]): void {
+  parse(argv: string[]): this {
     this.__argv = argv.slice(1);
 
     const commandStr: string = (this.__argv[0] || '').trim();
     if (!commandStr) {
       this.emit('help');
-      return;
+      return this;
     }
 
     const Commands: CommandClass$[] = [...this.__commands];
@@ -68,11 +75,15 @@ class Program extends EventEmitter implements Program$ {
           }
         }
 
+        const argv = minimist(this.__argv);
+
         if (command.options) {
           const OptionClasses: OptionClass$[] = [...command.options];
           while (OptionClasses.length) {
             const OptionClass: OptionClass$ = <OptionClass$>OptionClasses.shift();
             const option: Option$ = new OptionClass();
+
+            const name: string = option.name;
 
             // 如果只是单纯的flag，则只有boolean类型
             if (option.flag) {
@@ -80,14 +91,24 @@ class Program extends EventEmitter implements Program$ {
                 hasFlag(option.short, this.__argv) ||
                 hasFlag(option.long, this.__argv);
 
-              optionsObject[option.name] = option.value;
+              optionsObject[name] = <boolean>option.value;
+            } else {
+              // 如果不是flag，需要指定值
+              const value: string = argv[option.name];
+              optionsObject[name] = value || '';
             }
           }
         }
 
+        this.__command = command;
+        this.__command_argv = argvObject;
+        this.__command_options = optionsObject;
+
         command.action(argvObject, optionsObject);
       }
     }
+
+    return this;
   }
 }
 
