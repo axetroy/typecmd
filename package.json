@@ -1,0 +1,46 @@
+{
+  "name": "typecmd",
+  "version": "0.1.4",
+  "description": "Http module for Greasyfork Script",
+  "main": "./dist/index.js",
+  "typings": "./index.d.ts",
+  "scripts": {
+    "test": "tsc && ava",
+    "build": "tsc",
+    "start": "webpack --display-error-details --progress --colors --watch",
+    "generate": "all-contributors generate",
+    "deploy": "gh-pages -d ./dist",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "docs": "docsify serve docs"
+  },
+  "keywords": [
+    "typescript",
+    "greasyfork",
+    "script",
+    "http"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axetroy/typecmd.git"
+  },
+  "author": "Axetroy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/axetroy/typecmd/issues"
+  },
+  "homepage": "https://github.com/axetroy/typecmd#readme",
+  "devDependencies": {
+    "all-contributors-cli": "^4.0.1",
+    "ava": "^0.22.0",
+    "conventional-changelog": "^1.1.3",
+    "docsify": "^4.1.14",
+    "gh-pages": "^1.0.0",
+    "ts-loader": "^2.2.0",
+    "typescript": "^2.5.2",
+    "webpack": "^3.2.0"
+  },
+  "dependencies": {
+    "@types/node": "^8.0.26",
+    "has-flag": "^2.0.0"
+  }
+}
