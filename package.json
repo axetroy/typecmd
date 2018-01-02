@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@types/node": "^8.0.26",
-    "has-flag": "^2.0.0",
+    "has-flag": "^3.0.0",
     "minimist": "^1.2.0"
   }
 }
